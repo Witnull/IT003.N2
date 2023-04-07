@@ -1,0 +1,65 @@
+#include <iostream>
+
+using namespace std;
+
+struct LLNode{
+    int val;
+    LLNode* next = nullptr;
+};
+
+class stack{
+private:
+    LLNode* head;
+    int nTop;
+public:
+    stack(): head(nullptr), nTop(0){}
+
+    void push(int v){
+        LLNode* nNode = new LLNode;
+        nNode->val = v;
+        nNode->next = head;
+        head = nNode;
+        nTop++;
+    }
+
+    int top(){
+        if (head != nullptr){
+            return head->val;
+        }
+        return -1;
+    }
+
+    void pop(){
+        if (head != nullptr){
+            LLNode* temp = head;
+            head = head->next;
+            delete temp;
+            nTop--;
+        }
+    }
+
+    bool empty(){
+        return head == nullptr;
+    }
+
+    ~stack(){
+        while (head != nullptr){
+            pop();
+        }
+    }
+};
+
+int main() {
+    stack s;
+    s.push(1);
+    s.push(2);
+    s.push(3);
+    cout<<s.top();s.pop();cout<<" "<<s.empty()<<endl; //3 false
+    cout<<s.top();s.pop();cout<<" "<<s.empty()<<endl; //2 false
+    s.push(4);
+    s.push(5);
+    cout<<s.top();s.pop();cout<<" "<<s.empty()<<endl; //5 false
+    cout<<s.top();s.pop();cout<<" "<<s.empty()<<endl; //4 false
+    cout<<s.top();s.pop();cout<<" "<<s.empty()<<endl; //1 true
+    return 0;
+}
