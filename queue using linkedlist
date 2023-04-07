@@ -1,0 +1,74 @@
+#include <iostream>
+
+using namespace std;
+
+struct LLNode{
+    int val;
+    LLNode* next = nullptr;
+};
+
+class queue{
+private:
+    LLNode* head;
+    LLNode* tail;
+    int n;
+public:
+    queue(): head(nullptr), tail(nullptr), n(0){}
+
+    void push(int v){
+        LLNode* nNode = new LLNode;
+        nNode->val = v;
+        nNode->next = nullptr;
+        if (head == nullptr){
+            head = tail = nNode;
+        } else {
+            tail->next = nNode;
+            tail = nNode;
+        }
+        n++;
+    }
+
+    int front(){
+        if (head != nullptr){
+            return head->val;
+        }
+        return -1;
+    }
+
+    void pop(){
+        if (head != nullptr){
+            LLNode* temp = head;
+            head = head->next;
+            delete temp;
+            n--;
+            if (head == nullptr){
+                tail = nullptr;
+            }
+        }
+    }
+
+    bool empty(){
+        return head == nullptr;
+    }
+
+    ~queue(){
+        while (head != nullptr){
+            pop();
+        }
+    }
+};
+
+int main() {
+    queue q;
+    q.push(1);
+    q.push(2);
+    q.push(3);
+    cout<<q.front();q.pop();cout<<" "<<q.empty()<<endl; //1 false
+    cout<<q.front();q.pop();cout<<" "<<q.empty()<<endl; //2 false
+    q.push(4);
+    q.push(5);
+    cout<<q.front();q.pop();cout<<" "<<q.empty()<<endl; //3 false
+    cout<<q.front();q.pop();cout<<" "<<q.empty()<<endl; //4 false
+    cout<<q.front();q.pop();cout<<" "<<q.empty()<<endl; //5 true
+    return 0;
+}
